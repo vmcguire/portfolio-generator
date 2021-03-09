@@ -1,4 +1,32 @@
+const fs = require("fs");
+const generatePage = require("./src/page-template");
 const inquirer = require("inquirer");
+
+//for testing purposes
+// const mockData = {
+//   name: "Victor",
+//   github: "vmcguire",
+//   confirmAbout: true,
+//   about: "Hello I'm Victor",
+//   projects: [
+//     {
+//       name: "Victor's Project",
+//       description: "Cool",
+//       languages: [],
+//       link: "link",
+//       feature: false,
+//       confirmAddProject: true,
+//     },
+//     {
+//       name: "project 2",
+//       description: "descript 2",
+//       languages: [],
+//       link: "link 2",
+//       feature: false,
+//       confirmAddProject: false,
+//     },
+//   ],
+// };
 
 const promptUser = () => {
   return inquirer.prompt([
@@ -105,10 +133,21 @@ Add a New Project
       }
     });
 };
+
+//for testing purposes
+// const pageHTML = generatePage(mockData);
+
 promptUser()
   .then(promptProject)
   .then((portfolioData) => {
-    console.log(portfolioData);
+    // const pageHTML = generatePage(mockData);
+    const pageHTML = generatePage(portfolioData);
+    fs.writeFile("./index.html", pageHTML, (err) => {
+      if (err) throw new Error(err);
+      console.log(
+        "Page created! Check out index.html in this directory to see it!"
+      );
+    });
   });
 
 // const fs = require("fs");
